@@ -1,0 +1,26 @@
+{% extends 'mailing/base.html' %}
+
+{% block content %}
+
+<div class="row text-center  mb-3">
+        <a class="p-2 btn btn-success" href="{% url 'clients:create_client'%}">Создание клиента</a>
+</div>
+
+
+<div class="row text-center">
+    {% for object in object_list%}
+    <div class="card mb-3 " style="max-width: 540px;">
+      <div class="row g-0">
+        <div class="col-md-12">
+          <div class="card-body">
+            <h6 class="card-title" >{{ object.fullname }}</h6>
+              <a type="button" class="btn btn-outline-success" href="{% url 'clients:detail_client' object.pk%}">Details</a>
+              <a type="button" class="btn btn-outline-success" href="{% url 'clients:update_client' object.pk%}">Edit</a>
+              <a type="button" class="btn btn-outline-danger" href="{% url 'clients:delete_client' object.pk%}">Delete</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+</div>
+{%endblock%}

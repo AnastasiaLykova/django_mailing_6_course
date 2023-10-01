@@ -1,0 +1,19 @@
+{% extends 'mailing/base.html' %}
+
+{% block content %}
+
+<div class="row text-left">
+    <div class="card mb-3" style="max-width: 740px;">
+      <div class="row g-0">
+        <div class="col-md-12">
+          <div class="card-body">
+            <h6 class="card-title" >{{object.fullname}}</h6>
+              <p class="card-text">Почта: {{object.email}}</p>
+              <p class="card-text">Комментарии: {{object.annotation}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+{%endblock%}

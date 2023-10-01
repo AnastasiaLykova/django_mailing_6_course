@@ -1,0 +1,22 @@
+{% extends 'mailing/base.html' %}
+
+{% block content %}
+
+<div class="col-12">
+    <div class="row text-left">
+        <div class="col-6">
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <h6>{{object.fullname}} </h6>
+                    <p>{{object.email}} </p>
+                    <p>{{object.annotation}} </p>
+                    <button type="submit" class="btn btn-success" >Удалить клиента</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{%endblock%}
