@@ -1,0 +1,20 @@
+{% extends 'mailing/base.html' %}
+
+{% block content %}
+
+<div class="row text-left">
+    <div class="card mb-3" style="max-width: 740px;">
+      <div class="row g-0">
+        <div class="col-md-12">
+          <div class="card-body">
+            <h6 class="card-title" >{{ object.datetime }}</h6>
+              <p class="card-title" >{{ object.status }}</p>
+              <p class="card-title" >{{ object.message.heading }}</p>
+              <p class="card-title" >{{ object.message.content }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+{%endblock%}
