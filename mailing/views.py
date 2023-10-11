@@ -9,10 +9,8 @@ class MailingListView(ListView):
     model = Mailing
     extra_context = {'title': 'Рассылки'}
 
-    # def get_queryset(self, *args, **kwargs):
-    #     queryset = super().get_queryset(*args, **kwargs)
-    #     queryset = queryset.filter(is_published=True)
-    #     return queryset
+    def get_queryset(self):
+        return Mailing.objects.filter(creator=self.request.user)
 
 
 class MailingDetailView(DetailView):
@@ -27,7 +25,7 @@ def create_mailing(request):
         new_message = Message.objects.create(heading=heading, content=content)
         new_message.save()
         datetime = request.POST.get('datetime')
-        new_mailing = Mailing.objects.create(datetime=datetime, status='создана', message=new_message)
+        new_mailing = Mailing.objects.create(datetime=datetime, message=new_message, creator=request.user)
         new_mailing.save()
     return render(request,'mailing/mailing_create.html')
 

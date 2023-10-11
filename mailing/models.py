@@ -1,11 +1,14 @@
 from django.db import models
 
+from users.models import Users
+
 NULLABLE = {'null': True, 'blank': True}
 
 
 class Message(models.Model):
     heading = models.CharField(max_length=100, verbose_name='заголовок')
     content = models.TextField(verbose_name='сообщение')
+    creator = models.ForeignKey(Users, on_delete=models.CASCADE, verbose_name='Создатель', **NULLABLE)
 
     def __str__(self):
         return f'{self.heading}'
@@ -17,9 +20,17 @@ class Message(models.Model):
 
 
 class Mailing(models.Model):
+
+    STATUS_CHOICES = (
+        ('created', 'создана'),
+        ('started', 'запущена'),
+        ('completed', 'завершена'),
+    )
+
     datetime = models.TimeField(verbose_name='время рассылки')
-    status = models.CharField(max_length=10, verbose_name='статус рассылки', default=None)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, verbose_name='статус рассылки', default='created')
     message = models.ForeignKey(Message, on_delete=models.CASCADE, verbose_name='сообщение', default=None)
+    creator = models.ForeignKey(Users, on_delete=models.CASCADE, verbose_name='Создатель', **NULLABLE)
 
     def __str__(self):
         return f'{self.datetime}'
