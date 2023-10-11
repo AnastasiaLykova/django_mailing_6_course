@@ -1,0 +1,26 @@
+{% extends 'mailing/base.html' %}
+
+{% block content %}
+<div class="row text-center  mb-3">
+    <a type="button" class="btn btn-warning" href="{% url 'blog:create_article' %}">Написать статью</a>
+</div>
+<div class="row text-center">
+    {% for object in object_list%}
+    <div class="card mb-3" style="max-width: 540px;">
+      <div class="row g-0">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h6 class="card-title" >{{ object.title }}</h6>
+            <p class="card-text">{{ object.body|slice:"80"}}...</p>
+              <a type="button" class="btn btn-success" href="{% url 'blog:article' object.pk%}">Читать</a>
+              <a type="button" class="btn btn-outline-secondary" href="{% url 'blog:update_article' object.pk%}">Edit</a>
+              <a type="button" class="btn btn-outline-danger" href="{% url 'blog:delete_article' object.pk%}">Delete</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+</div>
+{%endblock%}
