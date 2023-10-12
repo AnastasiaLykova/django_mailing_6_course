@@ -1,0 +1,24 @@
+{% extends 'mailing/base.html' %}
+
+{% block content %}
+
+<div class="row text-center">
+    {% for object in object_list%}
+    <div class="card mb-3 " style="max-width: 540px;">
+      <div class="row g-0">
+        <div class="col-md-12">
+          <div class="card-body">
+            <h6 class="card-title" >{{ object.email }}</h6>
+              {% if perms.users.view_users %}
+              <a type="button" class="btn btn-outline-success" href="{% url 'users:detail_user' object.pk%}">Details</a>
+              {% endif %}
+              {% if perms.users.change_users %}
+              <a type="button" class="btn btn-outline-success" href="{% url 'users:update_user' object.pk%}">Edit</a>
+              {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+</div>
+{%endblock%}

@@ -1,5 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm
-
+from django import forms
 from users.models import Users
 
 
@@ -23,3 +23,10 @@ class ResetForm(StyleFormMixin, UserCreationForm):
     class Meta:
         model = Users
         fields = ('email',)
+
+
+class UserChangeManagerForm(StyleFormMixin, forms.ModelForm):
+
+    class Meta:
+        model = Users
+        fields = ('email', 'is_active',)

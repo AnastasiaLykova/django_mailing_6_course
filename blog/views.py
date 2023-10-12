@@ -1,5 +1,6 @@
 import random
 
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -28,7 +29,8 @@ class ArticleDetailView(DetailView):
         return self.object
 
 
-class ArticleCreateView(CreateView):
+class ArticleCreateView(PermissionRequiredMixin, CreateView):
+    permission_required = "blog.add_blog"
     model = Blog
     form_class = ArticleForm
     success_url = reverse_lazy('blog:list')
@@ -40,7 +42,8 @@ class ArticleCreateView(CreateView):
         return super().form_valid(form)
 
 
-class ArticleUpdateView(UpdateView):
+class ArticleUpdateView(PermissionRequiredMixin, UpdateView):
+    permission_required = "blog.change_blog"
     model = Blog
     form_class = ArticleForm
 
@@ -48,7 +51,8 @@ class ArticleUpdateView(UpdateView):
         return reverse('blog:article', args=[self.object.pk])
 
 
-class ArticleDeleteView(DeleteView):
+class ArticleDeleteView(PermissionRequiredMixin, DeleteView):
+    permission_required = "blog.delete_blog"
     model = Blog
     success_url = reverse_lazy('blog:list')
 

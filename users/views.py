@@ -5,10 +5,10 @@ from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import LogoutView as BaseLogoutView
 from django.core.mail import send_mail
 from django.shortcuts import render
-from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.urls import reverse_lazy, reverse
+from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 
-from users.forms import UserForm
+from users.forms import UserForm, UserChangeManagerForm
 from users.models import Users
 
 
@@ -49,3 +49,23 @@ def verify_key(request):
             user_verify.is_verified = True
             user_verify.save()
     return render(request, 'users/verify.html')
+
+
+class UsersListView(ListView):
+    permission_required = "users.view_users"
+    model = Users
+
+
+class UsersDetailView(DetailView):
+    permission_required = "users.view_users"
+    model = Users
+
+
+class UsersUpdateView(UpdateView):
+    permission_required = "users.change_users"
+    model = Users
+    form_class = UserChangeManagerForm
+
+    def get_success_url(self):
+        return reverse('users:detail_user', args=[self.object.pk])
+

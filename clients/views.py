@@ -9,7 +9,6 @@ from mailing.models import Mailing
 
 class ClientsListView(ListView):
     model = Clients
-    extra_context = {'title': 'Клиенты'}
 
     def get_queryset(self):
         return Mailing.objects.filter(creator=self.request.user)
@@ -17,7 +16,6 @@ class ClientsListView(ListView):
 
 class ClientsDetailView(DetailView):
     model = Clients
-    extra_context = {'title': 'Клиента'}
 
 
 class ClientsCreateView(CreateView):
