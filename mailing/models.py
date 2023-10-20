@@ -7,6 +7,13 @@ NULLABLE = {'null': True, 'blank': True}
 
 
 class Mailing(models.Model):
+
+    PERIODICITY_CHOICES = [
+        ('day', 'Раз в день'),
+        ('week', 'Раз в неделю',),
+        ('month', 'Раз в месяц',),
+    ]
+    
     STATUS_CHOICES = (
         ('created', 'создана'),
         ('started', 'запущена'),
@@ -14,6 +21,8 @@ class Mailing(models.Model):
     )
 
     datetime = models.TimeField(verbose_name='время рассылки')
+    periodicity = models.CharField(verbose_name="Периодичность", choices=PERIODICITY_CHOICES,
+                                                   default=1)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, verbose_name='статус рассылки', default='created')
     creator = models.ForeignKey(Users, on_delete=models.CASCADE, verbose_name='Создатель', **NULLABLE)
     clients = models.ManyToManyField(Clients, verbose_name='клиенты', **NULLABLE)

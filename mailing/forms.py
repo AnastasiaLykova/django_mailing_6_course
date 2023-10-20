@@ -11,21 +11,20 @@ class MailingChangeStatusForm(StyleFormMixin, forms.ModelForm):
         fields = ('status',)
 
 
-class MessageForm(BaseInlineFormSet):
-
+class MessageForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Message
         fields = '__all__'
 
 
-class MailingForm(forms.ModelForm):
+class MailingForm(StyleFormMixin, forms.ModelForm):
 
     class Meta:
         model = Mailing
-        fields = '__all__'
+        fields = ('datetime','periodicity','status','clients',)
 
 
-MailingFormSet = inlineformset_factory(parent_model=Mailing, model=Message,
-                                       form=forms.ModelForm, formset=BaseInlineFormSet,
-                                       fields='__all__',
-                                       extra=1)
+# MailingDetailFormSet = inlineformset_factory(parent_model=Mailing, model=Message,
+#                                        form=forms.ModelForm, formset=BaseInlineFormSet,
+#                                        fields='__all__',
+#                                        extra=1)

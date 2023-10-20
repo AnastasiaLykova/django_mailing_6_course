@@ -1,8 +1,9 @@
+from django.forms import inlineformset_factory
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DeleteView, DetailView, UpdateView, CreateView
 
-from mailing.forms import MailingChangeStatusForm, MailingFormSet, MessageForm, MailingForm
+from mailing.forms import MailingChangeStatusForm, MessageForm, MailingForm
 from mailing.models import Mailing, Message
 
 
@@ -35,9 +36,34 @@ def create_mailing(request):
 
 
 class CreateMailingView(CreateView):
-    form_class = MailingFormSet
-    success_url = reverse_lazy('service:list_mailing')
+    model = Mailing
+    form_class = MailingForm
+    success_url = reverse_lazy('mailing:mailing')
     template_name = 'mailing/mailing_create.html'
+
+    def _get_formset(self):
+        MailingFormSet = inlineformset_factory(
+            parent_model=Mailing,
+            model=Message,
+            form=MessageForm,
+            exclude=('creator',),
+            extra=1
+        )
+
+        if self.request.method == "POST":
+            return MailingFormSet(self.request.POST, instance=self.object)
+        return MailingFormSet(instance=self.object)
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['formset'] = self._get_formset()
+        return context_data
+
+    def form_valid(self, form):
+        mailing = form.save()
+        mailing.creator = self.request.user
+        mailing.save()
+        return super().form_valid(form)
 
 
 class MailingDeleteView(DeleteView):
