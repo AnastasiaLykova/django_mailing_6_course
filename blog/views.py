@@ -17,7 +17,6 @@ class ArticleListView(ListView):
     extra_context = {'title': 'Блог'}
 
 
-
 class ArticleDetailView(DetailView):
     model = Blog
     extra_context = {'title': 'Статья'}

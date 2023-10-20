@@ -14,9 +14,11 @@
         <div class="col-md-12">
           <div class="card-body">
             <h6 class="card-title" >{{ object.fullname }}</h6>
+              {% if object.creator == request.user%}
               <a type="button" class="btn btn-outline-success" href="{% url 'clients:detail_client' object.pk%}">Details</a>
               <a type="button" class="btn btn-outline-success" href="{% url 'clients:update_client' object.pk%}">Edit</a>
               <a type="button" class="btn btn-outline-danger" href="{% url 'clients:delete_client' object.pk%}">Delete</a>
+                {% endif %}
           </div>
         </div>
       </div>

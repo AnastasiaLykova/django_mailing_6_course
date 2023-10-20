@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
-from django.views.generic import ListView, DeleteView, DetailView
+from django.views.generic import ListView, DeleteView, DetailView, UpdateView, CreateView
 
+from mailing.forms import MailingChangeStatusForm, MailingFormSet, MessageForm, MailingForm
 from mailing.models import Mailing, Message
 
 
@@ -10,7 +11,10 @@ class MailingListView(ListView):
     extra_context = {'title': 'Рассылки'}
 
     def get_queryset(self):
-        return Mailing.objects.filter(creator=self.request.user)
+        if self.request.user.is_staff:
+            return Mailing.objects.all()
+        else:
+            return Mailing.objects.filter(creator=self.request.user)
 
 
 class MailingDetailView(DetailView):
@@ -30,9 +34,20 @@ def create_mailing(request):
     return render(request,'mailing/mailing_create.html')
 
 
+class CreateMailingView(CreateView):
+    form_class = MailingFormSet
+    success_url = reverse_lazy('service:list_mailing')
+    template_name = 'mailing/mailing_create.html'
+
+
 class MailingDeleteView(DeleteView):
     model = Mailing
     success_url = reverse_lazy('mailing:mailing')
 
+
+class MailingChangeStatusView(UpdateView):
+    model = Mailing
+    success_url = reverse_lazy('mailing:mailing')
+    form_class = MailingChangeStatusForm
 
 

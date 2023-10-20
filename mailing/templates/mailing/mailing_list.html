@@ -17,8 +17,13 @@
               <p class="card-title" >{{ object.status }}</p>
               <p class="card-title" >{{ object.message.heading }}</p>
               <p class="card-title" >{{ object.message.content }}</p>
+              {% if object.creator == request.user%}
               <a type="button" class="btn btn-outline-success" href="{% url 'mailing:detail_mailing' object.pk%}">Details</a>
               <a type="button" class="btn btn-outline-danger" href="{% url 'mailing:delete_mailing' object.pk%}">Delete</a>
+              {% endif %}
+              {% if user.is_superuser %}
+              <a type="button" class="btn btn-outline-success" href="{% url 'mailing:change_status' object.pk%}">Change status</a>
+              {% endif %}
           </div>
         </div>
       </div>

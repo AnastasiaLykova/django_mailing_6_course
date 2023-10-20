@@ -9,9 +9,10 @@
                 <form method="post" enctype="multipart/form-data">
                  <form method="post">
                      {% csrf_token %}
-                     <input type="text" name="heading" class="form-control" id="heading" placeholder="heading" required>
+                     {{form.as_p}}
+                  <!--   <input type="text" name="heading" class="form-control" id="heading" placeholder="heading" required>
                      <input type="text" name="content" class="form-control" id="content" placeholder="content" required>
-                     <input type="time" name="datetime" class="form-control" id="datetime" placeholder="datetime" required>
+                     <input type="time" name="datetime" class="form-control" id="datetime" placeholder="datetime" required>-->
                      <button type="submit" class="btn btn-lg btn-block btn-outline-secondary">Создать рассылку</button>
                  </form>
                 </form>

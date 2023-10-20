@@ -4,14 +4,13 @@ from django.views.generic import ListView, DetailView, UpdateView, CreateView, D
 
 from clients.forms import CreateClientForm
 from clients.models import Clients
-from mailing.models import Mailing
 
 
 class ClientsListView(ListView):
     model = Clients
 
     def get_queryset(self):
-        return Mailing.objects.filter(creator=self.request.user)
+        return Clients.objects.filter(creator=self.request.user)
 
 
 class ClientsDetailView(DetailView):
