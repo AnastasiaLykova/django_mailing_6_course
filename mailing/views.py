@@ -1,10 +1,10 @@
-from django.forms import inlineformset_factory
 from django.shortcuts import render
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DeleteView, DetailView, UpdateView, CreateView
 
+from clients.models import Clients
 from mailing.forms import MailingChangeStatusForm, MessageForm, MailingForm
-from mailing.models import Mailing, Message
+from mailing.models import Mailing, Message, Logs
 
 
 class MailingListView(ListView):
@@ -16,6 +16,20 @@ class MailingListView(ListView):
             return Mailing.objects.all()
         else:
             return Mailing.objects.filter(creator=self.request.user)
+
+
+class MessageListView(ListView):
+    model = Message
+
+    def get_queryset(self):
+        if self.request.user.is_staff:
+            return Message.objects.all()
+        else:
+            return Message.objects.filter(creator=self.request.user)
+
+
+class LogsListView(ListView):
+    model = Logs
 
 
 class MailingDetailView(DetailView):
@@ -39,25 +53,6 @@ class CreateMailingView(CreateView):
     model = Mailing
     form_class = MailingForm
     success_url = reverse_lazy('mailing:mailing')
-    template_name = 'mailing/mailing_create.html'
-
-    def _get_formset(self):
-        MailingFormSet = inlineformset_factory(
-            parent_model=Mailing,
-            model=Message,
-            form=MessageForm,
-            exclude=('creator',),
-            extra=1
-        )
-
-        if self.request.method == "POST":
-            return MailingFormSet(self.request.POST, instance=self.object)
-        return MailingFormSet(instance=self.object)
-
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        context_data['formset'] = self._get_formset()
-        return context_data
 
     def form_valid(self, form):
         mailing = form.save()
@@ -66,9 +61,26 @@ class CreateMailingView(CreateView):
         return super().form_valid(form)
 
 
+class CreateMessageView(CreateView):
+    model = Message
+    form_class = MessageForm
+    success_url = reverse_lazy('mailing:message')
+
+    def form_valid(self, form):
+        message = form.save()
+        message.creator = self.request.user
+        message.save()
+        return super().form_valid(form)
+
+
 class MailingDeleteView(DeleteView):
     model = Mailing
     success_url = reverse_lazy('mailing:mailing')
+
+
+class MessageDeleteView(DeleteView):
+    model = Message
+    success_url = reverse_lazy('mailing:message')
 
 
 class MailingChangeStatusView(UpdateView):

@@ -20,7 +20,8 @@
         <a class="p-2 btn btn-warning" href="{% url 'blog:general' %}">Главная</a>
         {% if user.is_authenticated %}
         <a class="p-2 btn btn-secondary" href="{% url 'mailing:mailing' %}">Список рассылок</a>
-        <a class="p-2 btn btn-secondary " href="#">Отчет проведенных рассылок</a>
+        <a class="p-2 btn btn-secondary" href="{% url 'mailing:message' %}">Список сообщений</a>
+        <a class="p-2 btn btn-secondary " href="{% url 'mailing:logs' %}">Отчет проведенных рассылок</a>
         <a class="p-2 btn btn-secondary" href="{% url 'clients:clients_list' %}">Список клиентов</a>
         {% endif %}
         <a class="p-2 btn btn-secondary" href="{% url 'blog:list' %}">Блог</a>

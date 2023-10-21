@@ -25,7 +25,7 @@ class Mailing(models.Model):
                                                    default=1)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, verbose_name='статус рассылки', default='created')
     creator = models.ForeignKey(Users, on_delete=models.CASCADE, verbose_name='Создатель', **NULLABLE)
-    clients = models.ManyToManyField(Clients, verbose_name='клиенты', **NULLABLE)
+    clients = models.ManyToManyField(Clients, verbose_name='клиенты')
 
     def __str__(self):
         return f'{self.datetime}'

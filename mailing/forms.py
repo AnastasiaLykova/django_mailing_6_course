@@ -1,7 +1,7 @@
 from mailing.models import Mailing, Message
+from clients.models import Clients
 from users.forms import StyleFormMixin
 from django import forms
-from django.forms.models import inlineformset_factory, BaseInlineFormSet
 
 
 class MailingChangeStatusForm(StyleFormMixin, forms.ModelForm):
@@ -12,19 +12,20 @@ class MailingChangeStatusForm(StyleFormMixin, forms.ModelForm):
 
 
 class MessageForm(StyleFormMixin, forms.ModelForm):
+
     class Meta:
         model = Message
-        fields = '__all__'
+        exclude = ('creator',)
 
 
-class MailingForm(StyleFormMixin, forms.ModelForm):
+class MailingForm(forms.ModelForm):
+
+    clients = forms.ModelMultipleChoiceField(
+        queryset=Clients.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        label='Клиенты'
+    )
 
     class Meta:
         model = Mailing
-        fields = ('datetime','periodicity','status','clients',)
-
-
-# MailingDetailFormSet = inlineformset_factory(parent_model=Mailing, model=Message,
-#                                        form=forms.ModelForm, formset=BaseInlineFormSet,
-#                                        fields='__all__',
-#                                        extra=1)
+        exclude = ('creator',)
