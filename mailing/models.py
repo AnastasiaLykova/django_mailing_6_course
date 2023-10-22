@@ -22,12 +22,20 @@ class Message(models.Model):
 
 class Mailing(models.Model):
 
+    DAY = 'day'
+    WEEK = 'week'
+    MONTH = 'month'
+
     PERIODICITY_CHOICES = [
         ('day', 'Раз в день'),
         ('week', 'Раз в неделю',),
         ('month', 'Раз в месяц',),
     ]
-    
+
+    CREATED = 'created'
+    STARTED = 'started'
+    FINISHED = 'completed'
+
     STATUS_CHOICES = (
         ('created', 'создана'),
         ('started', 'запущена'),
@@ -64,7 +72,7 @@ class Logs(models.Model):
     ]
 
     datetime = models.TimeField(auto_now_add=True, verbose_name='дата создвния', **NULLABLE)
-    change_time = models.DateTimeField(auto_now=True, verbose_name='дата и время последней попытки', **NULLABLE)
+    change_time = models.DateTimeField(auto_now_add=True, verbose_name='дата и время последней попытки', **NULLABLE)
     status = models.CharField(max_length=10, verbose_name='статус попытки', choices=STATUS_CHOICES, default=PENDING)
     response = models.TextField(verbose_name='ответ почтового сервера', **NULLABLE)
     mailing = models.ForeignKey(Mailing, on_delete=models.CASCADE, verbose_name='рассылка')

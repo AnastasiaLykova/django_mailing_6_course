@@ -10,12 +10,12 @@ from django_apscheduler.jobstores import DjangoJobStore
 from django_apscheduler.models import DjangoJobExecution
 from django_apscheduler import util
 
-from mailing.services import send_mailings
+from mailing.services import start_mailing
 
 
 def my_job():
     # Your job processing logic here...
-    send_mailings()
+    start_mailing()
     print('работаю')
 
 

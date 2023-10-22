@@ -1,7 +1,8 @@
 from django.urls import path
 
 from users.apps import UsersConfig
-from users.views import LoginView, LogoutView, RegisterView, verify_key, UsersListView, UsersDetailView, UsersUpdateView
+from users.views import LoginView, LogoutView, RegisterView, verify_key, UsersListView, UsersDetailView, \
+    UsersUpdateView, UsersActiveUpdateView
 
 app_name = UsersConfig.name
 
@@ -12,5 +13,6 @@ urlpatterns = [
     path('verify/', verify_key, name='verify'),
     path('users_list/', UsersListView.as_view(), name='users_list'),
     path('clients/<int:pk>/', UsersDetailView.as_view(), name='detail_user'),
+    path('update_ac/<int:pk>/', UsersActiveUpdateView.as_view(), name='update_ac_user'),
     path('update/<int:pk>/', UsersUpdateView.as_view(), name='update_user'),
 ]

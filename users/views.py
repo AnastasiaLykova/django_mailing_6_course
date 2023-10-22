@@ -61,7 +61,7 @@ class UsersDetailView(DetailView):
     model = Users
 
 
-class UsersUpdateView(UpdateView):
+class UsersActiveUpdateView(UpdateView):
     permission_required = "users.change_users"
     model = Users
     form_class = UserChangeManagerForm
@@ -69,3 +69,13 @@ class UsersUpdateView(UpdateView):
     def get_success_url(self):
         return reverse('users:detail_user', args=[self.object.pk])
 
+
+class UsersUpdateView(UpdateView):
+    model = Users
+    form_class = UserForm
+
+    def get_success_url(self):
+        return reverse('users:detail_user', args=[self.object.pk])
+
+    def get_queryset(self):
+        return Users.objects.filter(email=self.request.user.email)

@@ -15,7 +15,7 @@ class UserForm(StyleFormMixin, UserCreationForm):
 
     class Meta:
         model = Users
-        fields = ('email', 'password1', 'password2')
+        fields = ('email', 'phone', 'avatar',  'country')
 
 
 class ResetForm(StyleFormMixin, UserCreationForm):
@@ -25,7 +25,7 @@ class ResetForm(StyleFormMixin, UserCreationForm):
         fields = ('email',)
 
 
-class UserChangeManagerForm(StyleFormMixin, forms.ModelForm):
+class UserChangeManagerForm(forms.ModelForm):
 
     class Meta:
         model = Users

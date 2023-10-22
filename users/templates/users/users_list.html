@@ -11,9 +11,10 @@
             <h6 class="card-title" >{{ object.email }}</h6>
               {% if perms.users.view_users %}
               <a type="button" class="btn btn-outline-success" href="{% url 'users:detail_user' object.pk%}">Details</a>
+              <a type="button" class="btn btn-outline-success" href="{% url 'users:update_user' object.pk%}">Edit</a>
               {% endif %}
               {% if perms.users.change_users %}
-              <a type="button" class="btn btn-outline-success" href="{% url 'users:update_user' object.pk%}">Edit</a>
+              <a type="button" class="btn btn-outline-success" href="{% url 'users:update_ac_user' object.pk%}">Change active</a>
               {% endif %}
           </div>
         </div>

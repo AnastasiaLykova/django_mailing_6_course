@@ -40,5 +40,3 @@ class ClientsUpdateView(UpdateView):
 class ClientsDeleteView(DeleteView):
     model = Clients
     success_url = reverse_lazy('clients:clients_list')
-
-
