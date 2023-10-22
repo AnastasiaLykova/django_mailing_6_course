@@ -10,17 +10,20 @@ from django_apscheduler.jobstores import DjangoJobStore
 from django_apscheduler.models import DjangoJobExecution
 from django_apscheduler import util
 
+from mailing.services import send_mailings
+
 
 def my_job():
     # Your job processing logic here...
-    print('я работаю')
+    send_mailings()
+    print('работаю')
 
 
 # The `close_old_connections` decorator ensures that database connections, that have become
 # unusable or are obsolete, are closed before and after your job has run. You should use it
 # to wrap any jobs that you schedule that access the Django database in any way.
 @util.close_old_connections
-def delete_old_job_executions(max_age=604_800):
+def delete_old_job_executions(max_age=3600):
     """
     This job deletes APScheduler job execution entries older than `max_age` from the database.
     It helps to prevent the database from filling up with old historical records that are no

@@ -2,9 +2,11 @@
 
 {% block content %}
 <div class="row text-center  mb-3">
+    <div class="col-md-3">
     {% if perms.blog.change_blog %}
     <a type="button" class="btn btn-warning" href="{% url 'blog:create_article' %}">Написать статью</a>
     {% endif %}
+</div>
 </div>
 <div class="row text-center">
     {% for object in object_list%}

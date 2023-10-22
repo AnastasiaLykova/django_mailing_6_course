@@ -11,7 +11,11 @@
               <p class="card-title" >статус: {{ object.status }}</p>
             <p class="card-title" >Периодичность: {{ object.periodicity }}</p>
             <p class="card-title" >Создатель: {{ object.creator }}</p>
-            <p class="card-title" >клиенты: {{ object.clients }}</p>
+                                <p>Клиенты:
+                            {% for client in mailing.clients.all  %}
+                            {{ client.email }};
+                            {% endfor %}
+                    </p>
           </div>
         </div>
       </div>
