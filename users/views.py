@@ -23,7 +23,7 @@ class LogoutView(BaseLogoutView):
 class RegisterView(CreateView):
     model = Users
     form_class = UserForm
-    success_url = reverse_lazy('mailing:mailing')
+    success_url = reverse_lazy('users:verify')
     template_name = 'users/register.html'
 
     def form_valid(self, form):

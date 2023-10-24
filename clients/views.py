@@ -16,6 +16,13 @@ class ClientsListView(ListView):
 class ClientsDetailView(DetailView):
     model = Clients
 
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.creator == self.request.user:
+            return self.object
+        else:
+            return None
+
 
 class ClientsCreateView(CreateView):
     model = Clients
@@ -36,7 +43,21 @@ class ClientsUpdateView(UpdateView):
     def get_success_url(self):
         return reverse('clients:detail_client', args=[self.object.pk])
 
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.creator == self.request.user:
+            return self.object
+        else:
+            return None
+
 
 class ClientsDeleteView(DeleteView):
     model = Clients
     success_url = reverse_lazy('clients:clients_list')
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.creator == self.request.user:
+            return self.object
+        else:
+            return None

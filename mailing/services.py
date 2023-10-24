@@ -46,8 +46,6 @@ def start_mailing():
             else:
                 periodicity = mailing.periodicity
                 obj_time = obj.change_time
-                print(periodicity)
-                print(obj_time)
 
                 if periodicity == Mailing.DAY:
                     obj_time += timedelta(days=1)

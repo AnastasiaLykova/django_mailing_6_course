@@ -1,8 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DeleteView, DetailView, UpdateView, CreateView
-
-from clients.models import Clients
 from mailing.forms import MailingChangeStatusForm, MessageForm, MailingForm
 from mailing.models import Mailing, Message, Logs
 
@@ -35,6 +33,15 @@ class LogsListView(ListView):
 class MailingDetailView(DetailView):
     model = Mailing
     extra_context = {'title': 'Статья'}
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.creator == self.request.user:
+            return self.object
+        elif self.request.user.is_staff:
+            return self.object
+        else:
+            return None
 
 
 def create_mailing(request):
@@ -77,10 +84,24 @@ class MailingDeleteView(DeleteView):
     model = Mailing
     success_url = reverse_lazy('mailing:mailing')
 
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.creator == self.request.user:
+            return self.object
+        else:
+            return None
+
 
 class MessageDeleteView(DeleteView):
     model = Message
     success_url = reverse_lazy('mailing:message')
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.creator == self.request.user:
+            return self.object
+        else:
+            return None
 
 
 class MailingChangeStatusView(UpdateView):
@@ -88,4 +109,11 @@ class MailingChangeStatusView(UpdateView):
     success_url = reverse_lazy('mailing:mailing')
     form_class = MailingChangeStatusForm
 
-
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.creator == self.request.user:
+            return self.object
+        elif self.request.user.is_staff:
+            return self.object
+        else:
+            return None
